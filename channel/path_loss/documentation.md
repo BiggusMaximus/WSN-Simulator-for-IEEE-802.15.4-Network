@@ -4,5 +4,5 @@ We use multiple different pathloss model such as ideal channel, log-normal, egli
 
 
 $$
-P_{\mathrm{RX}}(d) = P_{\mathrm{TX}} + G_{\mathrm{TX}} + G_{\mathrm{RX}} - PL - X_{\sigma} \tag{17}
+P_{\mathrm{RX}}(d) = P_{\mathrm{TX}} + G_{\mathrm{TX}} + G_{\mathrm{RX}} - PL - X_{\sigma} 
 $$
