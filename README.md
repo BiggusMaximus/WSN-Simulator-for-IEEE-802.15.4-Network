@@ -35,31 +35,33 @@ Multiple sensor nodes transmit data simultaneously to a central base station. Th
 The overall structure of the simulator is illustrated below:
 
 <p align="center">
-  <img src="./assets/page_1.png" width="600" alt="Simulator architecture overview">
+  <img src="./assets/BlockDiagram.png" width="600" alt="Simulator architecture overview">
 </p>
 
-Each major component (channel, collision handling, energy) is implemented as a separate module that can be modified independently.
 
 
 
-### 1. Channel Model
+### 1. Channel Model 
+The model are documented in ([Model documentation](./channel/path_loss/documentation.md))
+
 - **Path‑loss model** – accounts for signal attenuation over distance.
 - **Fading** – small‑scale fading (e.g., Rayleigh or Rician) to capture real‑world variability.
 - **Jitter** – random timing variations to avoid perfect synchronisation artefacts.
 
 ### 2. Collision Model
+The model are documented in ([Model documentation](./channel/interference/documentation.md))
+
 - **Hidden terminal** – two nodes that cannot hear each other transmit to the same receiver, causing a collision at the receiver.
 - **Exposed terminal** – a node refrains from transmitting because it senses a transmission that would not actually interfere with its intended receiver.
 
-Both problems are reproduced and their impact on throughput, delay, and energy can be analysed.
+
 
 ### 3. Energy Consumption Model
 The radio of each sensor node is tracked through five distinct states:
-1. **Sensing** 
-2. **Logging** 
-3. **Transmitting**
-4. **Receiving**
-5. **Sleep**
+1. **Sensing** ([Model documentation](./node/documentation.md))  
+2. **Logging** ([Model documentation](./node/documentation.md)) 
+3. **Transmitting and Receiving** ([Model documentation](./node/rf/documentation.md)) 
+5. **Sleep** ([Model documentation](./node/rf/documentation.md)) 
 
 Energy consumption is calculated per state using configurable current/time parameters, enabling accurate lifetime estimation.
 
