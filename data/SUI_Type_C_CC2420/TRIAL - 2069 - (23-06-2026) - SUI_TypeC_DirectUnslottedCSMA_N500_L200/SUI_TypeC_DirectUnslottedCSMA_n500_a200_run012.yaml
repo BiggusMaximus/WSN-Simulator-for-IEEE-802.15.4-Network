@@ -1,0 +1,226 @@
+Channel:
+  Interference:
+    name: IEEE_802_15_4
+    params:
+      IEEE_802_15_4: null
+  PathLoss:
+    name: SUI_TypeC
+    params:
+      EricssonUrban:
+        c: 3e8
+        frequency: 2.4e9
+        h_BS: 30.0
+        h_MS: 1.5
+        shadowing_sigma: 8.0
+      ITU_P1411:
+        c: 3e8
+        frequency: 2.4e9
+        p: 50
+        urban_class: urban
+      Ideal:
+        c: 3e8
+        frequency: 2.4e9
+      LogDistance:
+        G: 0
+        PL_d0: 127.41
+        c: 3e8
+        d0: 40
+        frequency: 2.4e9
+        n: 2.5
+        shadowing_deviation: 3.57
+      SUI_TypeA:
+        c: 3e8
+        d0: 100
+        frequency: 2.4e9
+        h_BS: 5.0
+        h_MS: 2.0
+        shadowing_sigma: 8.2
+      SUI_TypeB:
+        c: 3e8
+        d0: 100
+        frequency: 2.4e9
+        h_BS: 5.0
+        h_MS: 2.0
+        shadowing_sigma: 7.0
+      SUI_TypeC:
+        c: 3e8
+        d0: 100
+        frequency: 2.4e9
+        h_BS: 5.0
+        h_MS: 2.0
+        shadowing_sigma: 6.0
+    shadowing_sigma: 7
+Deployment:
+  base_station_locations:
+  - - 100.0
+    - 100.0
+    - 5
+  name: Random
+  params:
+    PoissonLineCox:
+      height_default: 2
+      height_deviation: 0.25
+      line_density: 1
+      point_linear_intensity: 0.1
+    Random:
+      deviation: 50
+      height_default: 5
+      height_deviation: 0.25
+    UserInput:
+      FILE_INPUT: ./input/Random_1000_nodes_500x500m2_base_stations_[[250, 500, 20]].csv
+  save_deployment: true
+MCU:
+  name: ESP32_C6
+  params:
+    ESP32_C6:
+      I_LS: 35e-6
+      I_MS: 30e-3
+      V: 3.3
+      ppm: 10e-6
+    STM32L476RG:
+      active:
+        I_active: 20
+        V_active: 3.3
+        t_active: 0.5
+      sleep:
+        I_sleep: 25
+        V_sleep: 3.3
+        t_sleep: 0.8
+      standby:
+        I_standby: 10
+        V_standby: 3.3
+        t_standby: 0.4
+Memory:
+  name: microSD
+  params:
+    microSD:
+      I_read: 0.0062
+      I_write: 0.0184
+      T_read: 565e-6
+      T_write: 0.0129
+      V_operating: 2.7
+      packet_size: 2
+Node:
+  battery_capacity: 0.5
+  battery_deviation: 0.25
+Packet:
+  name: IEEE_802_15_4
+  params:
+    IEEE_802_15_4:
+      enable_ack: false
+      payload_size: 116
+RF:
+  name: IEEE_802_15_4
+  params:
+    IEEE_802_15_4:
+      BO: 8
+      BYTES_TO_SYMBOL: 2
+      MAX_JITTER: 1e-3
+      RF_hardware:
+        name: CC2420
+        params:
+          CC2420:
+            G_RX: 0
+            G_TX: 0
+            I_RX: 0.0188
+            I_TXs:
+            - 0.0085
+            - 0.0099
+            - 0.0141
+            - 0.0174
+            N0: -104
+            P_CCA: -77
+            P_RX_MAX: 10
+            P_RX_MIN: -95
+            P_TXs:
+            - -25
+            - -15
+            - -5
+            - 0
+            SINR_Thresh: 2
+            V: 3.3
+          ESP32_C6:
+            G_RX: 0
+            G_TX: 0
+            I_RX: 0.074
+            I_TXs:
+            - 0.092
+            - 0.119
+            - 0.147
+            - 0.305
+            N0: -104
+            P_CCA: -75
+            P_RX_MAX: 8
+            P_RX_MIN: -104
+            P_TXs:
+            - -15
+            - 0
+            - 12
+            - 20
+            SINR_Thresh: 2
+            V: 3.3
+      RandomChannel: false
+      Rb: 250e3
+      SO: 12
+      SYMBOL_DURATION: 16e-6
+      aBaseSuperframeDuration: 960
+      aUnitBackoffPeriod: 20
+      ackEnabled: true
+      ackWaitSymbols: 54
+      ccaSymbols: 8
+      channel: 1
+      is_multi_channel: false
+      macMaxBE: 4
+      macMaxCSMABackoffs: 2
+      macMaxFrameRetries: 1
+      macMinBE: 3
+      max_random_channel: 16
+    LoRa:
+      CR: 1
+      CRC: 1
+      DE: 1
+      H: 1
+      NF: 6
+      carrier_frequency: 868e6
+      duty_cycle: 1
+      n_preamble: 8
+Routing:
+  name: DirectUnslottedCSMA
+  params:
+    DirectUnslottedCSMA:
+      P_TX: 0
+Sensor:
+  name: BMP280
+  params:
+    BMP280:
+      I_sensing: 7.02e-06
+      T_sensing: 0.0115
+      V_sensing: 3.3
+      data_size: 2
+    DHT22:
+      V_sensing: 25
+      data_size: 4
+      t_sensing: 5e-4
+      voltage: 3.3
+    DS18B20:
+      V_sensing: 25
+      data_size: 4
+      t_sensing: 5e-4
+      voltage: 3.3
+Simulation:
+  area_dimensions:
+  - 200
+  - 200
+  - 5
+  display_period: 50
+  duration: 1
+  is_3d: true
+  is_homogenous: true
+  is_logging_enabled: false
+  is_sensing_enabled: false
+  name: DirectUnslottedCSMA_n500_a200_run012
+  number_of_nodes: 500
+  rounds: 200
+  time_step: 20e-3
+  use_multiple_sensor: false
+  version: 1.0.0

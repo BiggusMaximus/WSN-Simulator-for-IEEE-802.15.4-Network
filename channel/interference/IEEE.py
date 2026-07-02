@@ -29,10 +29,6 @@ class IEEE_802_15_4(InterferenceModel):
         self, config
     ):
         self.name           =  config["name"                ]
-        self.P_CCA          =  float(config[self.name]["P_CCA"    ])                 
-        self.SINR           =  float(config[self.name]["SINR"     ])
-        self.N0             =  float(config[self.name]["N0"       ])
-        self.P_RX_MIN       =  float(config[self.name]["P_RX_MIN" ])
 
     def reception_overlap(self, tx_source, tx_other):
         """
@@ -89,6 +85,15 @@ class IEEE_802_15_4(InterferenceModel):
         k = other_transmitter.id
         j = destination_receiver.id
 
+        rx_min = destination_receiver._rf.P_RX_MIN
+        rx_max = destination_receiver._rf.P_RX_MAX
+        sinr_thresh = destination_receiver._rf.SINR_Thresh
+        n0 = destination_receiver._rf.N0
+
+        p_cca_vi = initial_transmitter._rf.P_CCA
+        p_cca_vk = destination_receiver._rf.P_CCA
+
+
         if initial_transmitter.is_base_station:
             i = 0
 
@@ -104,7 +109,7 @@ class IEEE_802_15_4(InterferenceModel):
         P_vk_vj = self.channel.rssi_matrix_dict[other_transmitter._rf.P_TX  ][k, j]
 
 
-        sinr_vi_vj = self._SINR_dB(P_vi_vj, [P_vk_vj], self.N0)
+        sinr_vi_vj = self._SINR_dB(P_vi_vj, [P_vk_vj], n0)
         results['SINR'] = sinr_vi_vj
         self.current_transmission = []
 
@@ -116,7 +121,7 @@ class IEEE_802_15_4(InterferenceModel):
         I1 = initial_transmitter._rf.overlaps(other_transmitter)
 
         # CCA mechanism
-        I2 = (P_vi_vk <= self.P_CCA) and (P_vk_vi <= self.P_CCA)
+        I2 = (P_vi_vk < p_cca_vk) and (P_vk_vi < p_cca_vi)
 
         # Receiver able to receive the packet from both of the transmitters
         # print(f"""
@@ -124,10 +129,11 @@ class IEEE_802_15_4(InterferenceModel):
         #     P_vk_vj: {P_vk_vj}
         #     self.P_RX_MIN: {self.P_RX_MIN}
         # """)
-        I3 = (P_vi_vj >= self.P_RX_MIN) and (P_vk_vj >= self.P_RX_MIN)
+        I3 = (rx_min <= P_vi_vj <= rx_max) and (rx_min <= P_vk_vj <= rx_max)
+
 
         # Ensure the SINR for each transmitter
-        I4 = sinr_vi_vj < self.SINR
+        I4 = sinr_vi_vj < sinr_thresh
         
         # Ensure the destination is not transmitting
         I5 = not any(
@@ -144,9 +150,9 @@ class IEEE_802_15_4(InterferenceModel):
         # ==============================  Exposed Node  ================================
         # ==============================================================================
 
-        I6 = P_vk_vi >= self.P_CCA
-        I7 = P_vi_vj >= self.P_RX_MIN
-        I8 = sinr_vi_vj >= self.SINR
+        I6 = P_vk_vi >= p_cca_vi
+        I7 = rx_min <= P_vi_vj <= rx_max
+        I8 = sinr_vi_vj >= sinr_thresh
 
         if I1 and I5 and I6 and I7 and I8:
             results['exposed_node'] = True

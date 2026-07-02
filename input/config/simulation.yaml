@@ -1,27 +1,59 @@
-Simulation:
-  name: DirectUnslottedCSMADirectUnslottedCSMA
-  area_dimensions:
-  - 150
-  - 150
-  - 5
-  display_period: 1
-  duration: 200
-  is_3d: false
-  is_homogenous: true
-  number_of_nodes: 100
-  rounds: 200
-  time_step: 1e-3
-  use_multiple_sensor: false
-  version: 1.0.0
-Routing:
-  name: DirectUnslottedCSMA
-  params:
-    DirectUnslottedCSMA:
-      MAX_JITTER: 5e-3
+Channel:
+  Interference:
+    name: IEEE_802_15_4
+    params:
+      IEEE_802_15_4:
+  PathLoss:
+    name: ITU_P1411
+    params:
+      EricssonUrban:
+        c: 3e8
+        frequency: 2.4e9
+        h_BS: 30.0
+        h_MS: 1.5
+        shadowing_sigma: 8.0
+      ITU_P1411:
+        c: 3e8
+        frequency: 2.4e9
+        p: 50
+        urban_class: urban
+      Ideal:
+        c: 3e8
+        frequency: 2.4e9
+      LogDistance:
+        G: 0
+        PL_d0: 127.41
+        c: 3e8
+        d0: 40
+        frequency: 2.4e9
+        n: 2.5
+        shadowing_deviation: 3.57
+      SUI_TypeA:
+        c: 3e8
+        d0: 100
+        frequency: 2.4e9
+        h_BS: 5.0
+        h_MS: 2.0
+        shadowing_sigma: 8.2
+      SUI_TypeB:
+        c: 3e8
+        d0: 100
+        frequency: 2.4e9
+        h_BS: 5.0
+        h_MS: 2.0
+        shadowing_sigma: 7.0
+      SUI_TypeC:
+        c: 3e8
+        d0: 100
+        frequency: 2.4e9
+        h_BS: 5.0
+        h_MS: 2.0
+        shadowing_sigma: 6.0
+    shadowing_sigma: 7
 Deployment:
   base_station_locations:
-  - - 75
-    - 150
+  - - 5.0
+    - 5.0
     - 5
   name: Random
   params:
@@ -37,79 +69,6 @@ Deployment:
     UserInput:
       FILE_INPUT: ./input/Random_1000_nodes_500x500m2_base_stations_[[250, 500, 20]].csv
   save_deployment: true
-RF:
-  name: IEEE_802_15_4
-  params:
-    IEEE_802_15_4:
-      BO: 9
-      BYTES_TO_SYMBOL: 2
-      G_RX: 9
-      G_TX: 9
-      I_RX: 0.074
-      I_TXs:
-      - 0.092
-      - 0.119
-      - 0.147
-      - 0.305
-      MAX_JITTER: 5e-3
-      P_RX_MIN: -104
-      P_RX_MAX: 8
-      P_TXs:
-      - -15
-      - 0
-      - 12
-      - 20
-      Rb: 250
-      SO: 12
-      SYMBOL_DURATION: 16e-6
-      V: 3.3
-      aBaseSuperframeDuration: 960
-      aUnitBackoffPeriod: 20
-      ackEnabled: true
-      ackWaitSymbols: 54
-      ccaSymbols: 8
-      macMaxBE: 5
-      macMaxCSMABackoffs: 4
-      macMaxFrameRetries: 3
-      macMinBE: 3
-    LoRa:
-      CR: 1
-      CRC: 1
-      DE: 1
-      H: 1
-      NF: 6
-      carrier_frequency: 868e6
-      duty_cycle: 1
-      n_preamble: 8
-Channel:
-  Interference:
-    IEEE_802_15_4:
-      G_RX: 9
-      G_TX: 9
-      N0: -104
-      P_CCA: -75
-      P_RX_MIN: -104
-      SINR: 2
-    name: IEEE_802_15_4
-  PathLoss:
-    ITU_P1411:
-      c: 3e8
-      frequency: 2.4e9
-      p: 50
-      urban_class: urban
-    LogDistance:
-      G: 0
-      PL_d0: 127.41
-      c: 3e8
-      d0: 40
-      frequency: 868e8
-      n: 2.5
-      shadowing_deviation: 3.57
-    SUI_TypeA:
-      d0: 40
-      shadowing_deviation: 3.57
-    name: ITU_P1411
-    shadowing_sigma: 7
 MCU:
   name: ESP32_C6
   params:
@@ -145,10 +104,91 @@ Node:
   battery_capacity: 0.5
   battery_deviation: 0.25
 Packet:
-  IEEE_802_15_4:
-    BYTES_TO_SYMBOL: 2
-    SYMBOL_DURATION: 16e-6
   name: IEEE_802_15_4
+  params:
+    IEEE_802_15_4:
+      enable_ack: false
+      payload_size: 116
+RF:
+  name: IEEE_802_15_4
+  params:
+    IEEE_802_15_4:
+      BO: 8
+      BYTES_TO_SYMBOL: 2
+      MAX_JITTER: 1e-3
+      RF_hardware:
+        name: ESP32_C6
+        params:
+          CC2420:
+            G_RX: 0
+            G_TX: 0
+            I_RX: 0.0188
+            I_TXs:
+            - 0.0085
+            - 0.0099
+            - 0.0141
+            - 0.0174
+            P_RX_MAX: 10
+            P_RX_MIN: -95
+            P_CCA: -77
+            P_TXs:
+            - -25
+            - -15
+            - -5
+            - 0
+            V: 3.3
+            N0: -104
+            SINR_Thresh: 2
+          ESP32_C6:
+            G_RX: 0
+            G_TX: 0
+            I_RX: 0.074
+            I_TXs:
+            - 0.092
+            - 0.119
+            - 0.147
+            - 0.305
+            P_RX_MAX: 8
+            P_RX_MIN: -104
+            P_CCA: -75
+            P_TXs:
+            - -15
+            - 0
+            - 12
+            - 20
+            V: 3.3
+            N0: -104
+            SINR_Thresh: 2
+      RandomChannel: false
+      Rb: 250e3
+      SO: 12
+      SYMBOL_DURATION: 16e-6
+      aBaseSuperframeDuration: 960
+      aUnitBackoffPeriod: 20
+      ackEnabled: true
+      ackWaitSymbols: 54
+      ccaSymbols: 8
+      channel: 1
+      is_multi_channel: false
+      macMaxBE: 4
+      macMaxCSMABackoffs: 2
+      macMaxFrameRetries: 1
+      macMinBE: 3
+      max_random_channel: 16
+    LoRa:
+      CR: 1
+      CRC: 1
+      DE: 1
+      H: 1
+      NF: 6
+      carrier_frequency: 868e6
+      duty_cycle: 1
+      n_preamble: 8
+Routing:
+  name: DirectUnslottedCSMA
+  params:
+    DirectUnslottedCSMA:
+      P_TX: 0
 Sensor:
   name: BMP280
   params:
@@ -167,3 +207,20 @@ Sensor:
       data_size: 4
       t_sensing: 5e-4
       voltage: 3.3
+Simulation:
+  area_dimensions:
+  - 10
+  - 10
+  - 5
+  display_period: 50
+  duration: 1
+  is_3d: true
+  is_homogenous: true
+  is_logging_enabled: false
+  is_sensing_enabled: false
+  name: DirectUnslottedCSMA_n10_a10_run077
+  number_of_nodes: 10
+  rounds: 200
+  time_step: 20e-3
+  use_multiple_sensor: false
+  version: 1.0.0

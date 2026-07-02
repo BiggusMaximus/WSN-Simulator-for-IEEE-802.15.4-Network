@@ -17,6 +17,8 @@ Multiple sensor nodes transmit data simultaneously to a central base station. Th
     - [3. Energy Consumption Model](#3-energy-consumption-model)
   - [Installation](#installation)
     - [For those who want to run the gui.py:](#for-those-who-want-to-run-the-guipy)
+    - [For those want to run through .exe for windows:](#for-those-want-to-run-through-exe-for-windows)
+    - [Citation:](#citation)
 
 ---
 
@@ -81,7 +83,11 @@ The simulator requires **Python 3.12+** (tested with 3.12.3).
     ```bash
     pip install -r requirements.txt
     ```
-
+3. Run the program
+   ```bash
+   python gui.py
+   ```
+   
 ### For those want to run through .exe for windows:
 [Open and Run this application](temp.exe)
 

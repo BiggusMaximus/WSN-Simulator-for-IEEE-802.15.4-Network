@@ -26,6 +26,9 @@ class IEEE_802_15_4(PacketModel):
         self.sequence_number   = 0
         self.ack_flag           = False
         self.cost = 0
+        self.config = config['Packet']
+        self.name = self.config['name']
+        self.params = self.config['params'][self.name]
 
         """
             Default standard packet for 802.15.4
@@ -212,7 +215,7 @@ class IEEE_802_15_4(PacketModel):
 
     def SENSOR_DATA(self):
         self.packet_type        = "SENSOR_DATA"
-        self.ack_flag           = False
+        self.ack_flag           = self.params['enable_ack']
 
         """
             This JOIN_REQ packet is formed, based on the configuration of frame control as following:
@@ -242,7 +245,7 @@ class IEEE_802_15_4(PacketModel):
         self.SOURCE_PAN_ID               = 0
         self.SOURCE_ADDRESS              = 2
         self.AUXILLARY_SECURITY_HEADER   = 0
-        self.PAYLOAD                     = 6
+        self.PAYLOAD                     = self.params['payload_size']
 
     def SENSOR_DATA_CH(self):
         self.packet_type        = "SENSOR_DATA_CH"
@@ -318,8 +321,7 @@ class IEEE_802_15_4(PacketModel):
 
         # print(f"""
         #     TX: {transmitter.id}
-        #     RX: {receiver.id}
-        #     Packet Size: {packet_size} byte
+        #     Packet Size: {self.packet_size} byte
         #     seq number: {self.sequence_number}
         # """)
 

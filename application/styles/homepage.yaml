@@ -1,0 +1,8 @@
+layout:
+  description_x_factor: 0.725
+  description_y_offset: -60       # relative to half height
+  developer_y_offset: 20
+  buttons_y_offset: 80
+  citation_box_y_offset: 140      # relative to a base y
+  citation_box_width: 650
+  citation_box_height: 200

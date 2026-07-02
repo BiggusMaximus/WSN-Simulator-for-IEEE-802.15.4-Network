@@ -1,31 +1,55 @@
 from abstract.rf import RF
 from packet import create_packet
+import numpy as np
 
 class IEEE_802_15_4(RF):
     def __init__(self, config):
         super().__init__(config)
         
-        self.config             = config
-        self.V                  = float(self.params['V'               ])
-        self.Rb                 = float(self.params['Rb'              ])
-        self.G_TX               = float(self.params['G_TX'            ])
-        self.G_RX               = float(self.params['G_RX'            ])
-        self.P_RX_MIN           = float(self.params['P_RX_MIN'        ])
-        self.P_RX_MAX           = float(self.params['P_RX_MAX'        ])
+        self.config             = config['RF']
+        self.RF_name            = config['RF']['name']
+        self.RF_params          = config['RF']['params'][self.RF_name]['RF_hardware']
+        self.RF_hardware_name   = self.RF_params['name']
 
-        self.P_TXs              = self.params['P_TXs'           ]
-        self.I_TXs              = self.params['I_TXs'           ]
-        self.I_RX               = float(self.params['I_RX'            ])
+        self.RF_params          = self.RF_params['params'][self.RF_hardware_name]
+
+
+        self.V                  = float(self.RF_params['V'               ])
+        
+        self.G_TX               = float(self.RF_params['G_TX'            ])
+        self.G_RX               = float(self.RF_params['G_RX'            ])
+        self.P_RX_MIN           = float(self.RF_params['P_RX_MIN'        ])
+        self.P_RX_MAX           = float(self.RF_params['P_RX_MAX'        ])
+        self.P_CCA              = float(self.RF_params['P_CCA'        ])
+        self.SINR_Thresh        = float(self.RF_params['SINR_Thresh'        ])
+        self.N0                 = float(self.RF_params['N0'        ])
+
+
+        self.I_RX               = float(self.RF_params['I_RX'            ])
+        self.P_TXs              =       self.RF_params['P_TXs'           ]
+        self.I_TXs              =       self.RF_params['I_TXs'           ]
+        
+        self.Rb                 = float(self.params['Rb'              ])
         self.BYTES_TO_SYMBOLS   = float(self.params['BYTES_TO_SYMBOL' ])
         self.SYMBOL_DURATION    = float(self.params['SYMBOL_DURATION' ])
         self.MAX_JITTER         = float(self.params['MAX_JITTER'])
         self.P_TX               = 20                                   # in dBm
 
         self.I_TX_dict = {self.P_TXs[i]:self.I_TXs[i] for i in range(len(self.P_TXs))}
-        self._packet    = create_packet(self.config)
+        self._packet    = create_packet(config)
         self.tx_start   = 0                                             # in second
         self.tx_end     = 0                                             # in second
-        self.channel    = 0
+
+        if self.params['RandomChannel']:
+            self.channel    = np.random.randint(1, float(self.params['max_random_channel']) + 1)
+        else:
+            if self.params['is_multi_channel']:
+                self.channel    = 0
+            else:
+                self.channel    = float(self.params['channel'])
+
+
+
         self.ack_wait_start = 0
 
         """

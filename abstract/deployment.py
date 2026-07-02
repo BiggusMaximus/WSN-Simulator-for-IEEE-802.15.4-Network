@@ -33,6 +33,13 @@ class Deployment(ABC):
         self.base_station_locations = config["Deployment"]["base_station_locations"]
         self.params                 = config["Deployment"]["params"][self.name]
 
+        # RF params
+        self.RF_config              = config["RF"]
+        self.RF_name                = config["RF"]['name']
+        self.RF_params              = self.RF_config['params'][self.RF_name]
+
+
+
         # Arbitrary values
         self.base_station_id        = 100000
         self.config                 = config
@@ -83,3 +90,7 @@ class Deployment(ABC):
                 available_sensors = SENSOR_REGISTRY.keys()
                 sensor_name = random.choice(available_sensors)
                 sensor = create_sensor(self.config)
+
+            if node.is_base_station:
+                if self.RF_params['is_multi_channel']:
+                    self.channel    = 0

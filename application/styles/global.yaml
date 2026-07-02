@@ -1,0 +1,26 @@
+fonts:
+  title: ["Helvetica", 32, "bold"]
+  button: ["Helvetica", 16, "bold"]
+  subtitle: ["Helvetica", 22]
+  body: ["Helvetica", 12]
+  developer: ["Helvetica", 22]
+  citation_label: ["Helvetica", 14, "bold"]
+  citation_text: ["Courier", 12]
+
+colors:
+  background: "black"
+  primary_text: "black"
+  secondary_text: "gray"
+  citation_bg: "white"
+  citation_border: "black"
+  quit_button_bg: "#b22222"
+  quit_button_hover: "#8b0000"
+  default_button_fg: "gray"
+  default_button_bg: "white"
+  default_button_hover: "green"
+  button_text: "white"
+
+buttons:
+  corner_radius: 12
+  width: 200
+  height: 40
