@@ -33,15 +33,15 @@ MAIN_SCRIPT = Path("main.py")
 
 # Parameter sweep values
 # NODE_COUNTS = [1, 5, 10, 20, 30, 40, 50]
-# AREA_SIDES  = [10]
-# NODE_COUNTS = range(5, 55, 5)
+AREA_SIDES  = [10]
+NODE_COUNTS = [1] + [i for i in range(5, 55, 5)]
 
-NODE_COUNTS = [10, 20, 50, 100, 200, 250, 500]
-AREA_SIDES  = [10, 20, 50, 100, 200, 500, 600, 750, 1000]
+# NODE_COUNTS = [10, 20, 50, 100, 200, 250, 500]
+# AREA_SIDES  = [10, 20, 50, 100, 200, 500, 600, 750, 1000]
 
 PROTOCOLS   = ["DirectUnslottedCSMA"]
-# CHANNEL = ["Ideal"]
-CHANNEL = ["Ideal", "SUI_TypeC", "ITU_P1411"]
+CHANNEL = ["Ideal"]
+# CHANNEL = ["Ideal", "SUI_TypeC", "ITU_P1411"]
 
 
 # ----------------------------------------------------------------------

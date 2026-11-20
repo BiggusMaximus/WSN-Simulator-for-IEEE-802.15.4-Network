@@ -319,11 +319,12 @@ class IEEE_802_15_4(PacketModel):
         self.packet_size = self.total_bytes(packet_type)
         self.sequence_number = (1 + self.sequence_number) % 256
 
-        # print(f"""
-        #     TX: {transmitter.id}
-        #     Packet Size: {self.packet_size} byte
-        #     seq number: {self.sequence_number}
-        # """)
+        print(f"""
+            TX: {transmitter.id}
+            packet_type: {packet_type}
+            Packet Size: {self.packet_size} byte
+            seq number: {self.sequence_number}
+        """)
 
         return (transmitter, receivers, self.sequence_number, self.packet_size)
     

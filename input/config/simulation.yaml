@@ -107,7 +107,7 @@ Packet:
   name: IEEE_802_15_4
   params:
     IEEE_802_15_4:
-      enable_ack: false
+      enable_ack: true
       payload_size: 116
 RF:
   name: IEEE_802_15_4
@@ -117,7 +117,7 @@ RF:
       BYTES_TO_SYMBOL: 2
       MAX_JITTER: 1e-3
       RF_hardware:
-        name: ESP32_C6
+        name: CC2420
         params:
           CC2420:
             G_RX: 0
@@ -170,9 +170,9 @@ RF:
       ccaSymbols: 8
       channel: 1
       is_multi_channel: false
-      macMaxBE: 4
-      macMaxCSMABackoffs: 2
-      macMaxFrameRetries: 1
+      macMaxBE: 5
+      macMaxCSMABackoffs: 3
+      macMaxFrameRetries: 4
       macMinBE: 3
       max_random_channel: 16
     LoRa:
