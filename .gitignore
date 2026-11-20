@@ -1,0 +1,24 @@
+# simulation output / large data
+data/
+assets/**/Thumbs.db
+Thumbs.db
+Thumbs.db:encryptable
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# notebooks
+.ipynb_checkpoints/
+
+# env & secrets
+.env
+.env.*
+
+# editor / OS
+.DS_Store
+.vscode/
+.idea/
